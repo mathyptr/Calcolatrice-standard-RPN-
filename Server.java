@@ -37,26 +37,25 @@ public class Server {
 		a=(Double.valueOf(op1).doubleValue());
 		b=(Double.valueOf(op2).doubleValue());
 		switch(operator) {
-		case '+' : {
+		case '+' : 
 			res=a+b;
 			break;
-		}
-		case '-' : {
+		
+		case '-' : 
 			res=a-b;
 			break;
-		}
-		case '/' : {
+		
+		case '/' : 
 			res=a/b;
 			break;
-		}
-		case '*' : {
+		
+		case '*' : 
 			res=a*b;
 			break;
-		}
-		default : {
+		
+		default : 
 			System.out.println("Errore" + "\n");
-			break;
-		}
+		
 		}
 		numOp++;
 		return res;
@@ -72,22 +71,25 @@ public class Server {
 			try{
 				clientData= inputClient.readLine();
 				if (CheckData(clientData)) {
-					formula.push(clientData);					
+					formula.push(clientData);	
+					outClient.println("OK");
 				}
 				else
 				{
-					op1=(String)formula.pop();
 					op2=(String)formula.pop();
+					op1=(String)formula.pop();
 					res=exec(op1,op2,clientData.charAt(0));
-					outClient.println(Double.toString(res));
-					//formula.push(res);
+					outClient.println("La risposta e': "+Double.toString(res));
+					formula.push(Double.toString(res));
 					System.out.println("****************");
 					System.out.println("Ecco il risultato della tua operazione n."+numOp+" :"+res);
 					System.out.println("****************");
 				}
 			}
 			catch(Exception e) {
+				outClient.println("Il server risponde: errore lettura da client");
 				System.out.println("errore lettura da client");
+				break;
 			}
 		}			
 		
