@@ -1,8 +1,20 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
-class Calcolatrice {
-	
+/**
+ * Classe per l'implementazione di una calcolatrice classica o rpn.
+ * La notazione polacca inversa (in inglese reverse polish notation o semplicemente RPN) è una sintassi utilizzata per le formule matematiche. 
+ * Mediante questa è possibile effettuare qualsiasi tipo di operazione, con il vantaggio di eliminare i problemi dovuti alle parentesi 
+ * e alla precedenza degli operatori. Nella notazione polacca inversa, prima si inseriscono gli operandi e poi gli operatori: 
+ * un esempio di RPN è 3 2 + che equivale al classico 3+2, oppure 10 2 / che fornisce 5. Quando si utilizza la RPN si puo' supporre di possedere una pila (stack)
+ * su cui pian piano si accumulano gli operandi: prima si inserisce il 3, poi il 2. Quando viene incontrato un operatore si preleva dalla cima della pila gli ultimi due operandi,
+ * si esegue l'operazione, e vi si rideposita il risultato.
+ * 
+ * @author Patrissi Mathilde
+ */
+public class Calcolatrice {
+	/**
+	 * Metodo di presentazione della calcolatrice e delle sue funzionalità:
+	 */
 	public static void SplashScreen() {
 		String progname="Calcolatrice";
 		System.out.println("********************************************************************************");
@@ -21,19 +33,32 @@ class Calcolatrice {
 		System.out.println("********************************************************************************");
 	}
 	
-	
+	/**
+	 * Metodo per la creazione dell'istanza Server 
+	 * @param port int
+	 */
 	public static  void doServer(int port) {
 		Server myServer= new Server(port);
 		myServer.Calc();
 	}
 	
+	/**
+	 * Metodo per la creazione dell'istanza Client
+	 * @param serverName  String
+	 * @param port int
+     * @param rpn char 
+	 */
 	public static void doClient(String serverName,int port,char rpn) {
 		Client myClient= new Client(serverName,port,rpn);
 		while(true)
 			myClient.invioDati();	
 	}
 	
-	public static void main(String[] args) {
+	/**
+	 * Metodo Main
+	 * @param args String[] 
+	 */
+	public static void main(String[] args) { //e' possibile passare i parametri al main 
 		SplashScreen();
 		InputStreamReader input = new InputStreamReader(System.in);
 		BufferedReader tastiera = new BufferedReader(input);
@@ -42,7 +67,7 @@ class Calcolatrice {
 		char rpn='n';
 		int port=0,index=1;
 		
-		if (args.length >1) {
+		if (args.length >1) { //i successivi contolli sono dedicati alla lettura dei parametri da riga di comando
 			if (args[0].length() >1) {
 				SplashScreen();
 				System.exit(1);
@@ -68,7 +93,7 @@ class Calcolatrice {
 		    if (args.length ==4&&args[3].length() ==1)
 		    	rpn=args[3].toLowerCase().charAt(0);
 		}
-		else if( args.length <= 1)	
+		else if( args.length <= 1)	//se non vengono forniti i parametri i dati in questione vengono chiesti in modo interattivo all'utente
 		{
 			System.out.println("s per server o altri caratteri per client");
 			try {
